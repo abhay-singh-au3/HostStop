@@ -15,9 +15,21 @@ const Form = (props) => {
             password
         }
         if (props.type === "Become a Host") {
-            hostSignup(newUser)
+            hostSignup(newUser).then(res => {
+                if (res) {
+                    console.log("Host Registered", res);
+                    // window.location.reload();
+                    // After signup do something here
+                }
+            })
         } else {
-            userSignup(newUser)
+            userSignup(newUser).then(res => {
+                if(res) {
+                    console.log("User Registered", res);
+                    // window.location.reload()
+                    // After signup do something here
+                }
+            })
         }
     }
 

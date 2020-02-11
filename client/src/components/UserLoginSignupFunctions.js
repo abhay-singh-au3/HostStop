@@ -8,9 +8,6 @@ export const userSignup = newUser => {
         email: newUser.email,
         password: newUser.password
     })
-    .then(res => {
-        console.log("Registered")
-    })
 }
 
 export const hostSignup = newUser => {
@@ -20,9 +17,6 @@ export const hostSignup = newUser => {
         lastName: newUser.lastName,
         email: newUser.email,
         password: newUser.password
-    })
-    .then(res => {
-        console.log("Registered")
     })
 }
 

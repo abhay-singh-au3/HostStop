@@ -15,11 +15,25 @@ const Login = (props) => {
         const { email, password } = user
         const newUser = { email, password }
         if (props.title === "User Login") {
-            userLogin(newUser)
-            console.log(localStorage.getItem("usertoken"))
+            userLogin(newUser).then(res => {
+                if(res) {
+                    // After success login do something here
+                    console.log("User Loggedin with token: ",res)
+                } else {
+                    // After fail login do something here
+                    console.log("Invalid Credintials")
+                }
+            })
         } else {
-            hostLogin(newUser)
-            console.log(localStorage.getItem("usertoken"))
+            hostLogin(newUser).then(res => {
+                if(res) {
+                    // after success login do something here
+                    console.log("Host Logged with token", res)
+                } else {
+                    // After fail login do something here
+                    console.log("Invalid Credintials")
+                }
+            })
         }
     }
 
