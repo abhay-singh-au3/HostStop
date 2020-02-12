@@ -21,7 +21,6 @@ const Form = props => {
       hostSignup(newUser).then(res => {
         if (res) {
           console.log("Host Registered", res);
-          window.location.reload();
           // After signup do something here
         }
       });

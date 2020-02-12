@@ -9,7 +9,7 @@ process.env.SECRET_KEY = 'secret'
 routes.hostSignup = (req, res) => {
     const userData = {
         firstName: req.body.firstName,
-        lastName: req.body.firstName,
+        lastName: req.body.lastName,
         email: req.body.email,
         password: req.body.password
     }
@@ -39,7 +39,7 @@ routes.hostSignup = (req, res) => {
 routes.userSignup = (req, res) => {
     const userData = {
         firstName: req.body.firstName,
-        lastName: req.body.firstName,
+        lastName: req.body.lastName,
         email: req.body.email,
         password: req.body.password
     }

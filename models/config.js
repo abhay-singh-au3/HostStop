@@ -1,8 +1,8 @@
 const Sequelize = require("sequelize");
 const db = {};
+const URL = require("../DBURL")
 
-const connectionURI = "postgres://postgres:sankalp1711@127.0.0.1:5432/hoststop";
-const sequelize = new Sequelize(connectionURI);
+const sequelize = new Sequelize(URL);
 
 sequelize
   .authenticate()
