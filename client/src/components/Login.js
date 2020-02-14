@@ -35,7 +35,7 @@ const Login = props => {
       hostLogin(newUser).then(res => {
         if (res) {
           // after success login do something here
-          history.push("/profile");
+          history.push("/hostDashboard");
           console.log("Host Logged with token", res);
         } else {
           // After fail login do something here

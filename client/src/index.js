@@ -1,10 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
+import "./styles/index.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Landing from "./components/Landing";
 import Profile from "./components/Profile";
 import Sample from "./components/Sample";
+import HostDashboard from "./components/HostDashboard";
 const App = () => {
   return (
     <Router>
@@ -12,6 +13,7 @@ const App = () => {
         <Route exact path="/" component={Landing} />
         <Route path="/profile" component={Profile} />
         <Route path="/sample" component={Sample} />
+        <Route path="/hostDashboard" component={HostDashboard} />
       </div>
     </Router>
   );
