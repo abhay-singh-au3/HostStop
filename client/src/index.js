@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import Landing from "./components/Landing";
 import Profile from "./components/Profile";
 import Sample from "./components/Sample";
+import UserDashboard from "./components/UserDashboard";
 const App = () => {
   return (
     <Router>
@@ -12,6 +13,7 @@ const App = () => {
         <Route exact path="/" component={Landing} />
         <Route path="/profile" component={Profile} />
         <Route path="/sample" component={Sample} />
+        <Route path="/UserDashboard" component={UserDashboard} />
       </div>
     </Router>
   );

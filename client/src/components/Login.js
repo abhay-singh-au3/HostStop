@@ -24,7 +24,7 @@ const Login = props => {
       userLogin(newUser).then(res => {
         if (res) {
           // After success login do something here
-
+          history.push("/UserDashboard");
           console.log("User Loggedin with token: ", res);
         } else {
           // After fail login do something here
