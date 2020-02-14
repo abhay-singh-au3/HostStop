@@ -1,0 +1,38 @@
+.navbar-brand {
+    cursor: pointer !important;
+}
+
+.ball-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    margin-top: 60px;
+}
+.ball-container img {
+    position: relative;
+    height: 80px;
+    width: 120px;
+    top: -65px;
+    left: 170px;
+}
+
+.place, .exp {
+    height: 80px;
+    width: 300px;
+    padding: 25px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+    transition: box-shadow 500ms;
+    font-weight: 500;
+    cursor: pointer;
+    letter-spacing: 0.1rem;
+}
+.place:hover, .exp:hover {
+    box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.5);
+}
+
+.place {
+    margin-right: 50px;
+}
+.exp {
+    margin-left: 50px;
+}
