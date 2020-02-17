@@ -1,40 +1,71 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { Fragment, useState } from 'react';
 import "../styles/hostdashboard.css";
-import jwt_decode from 'jwt-decode';
+import { NavDropdown, Navbar, Nav } from 'react-bootstrap';
+import HostExp from './HostForms/HostExp';
+import HostPlace from './HostForms/HostPlace';
 
 export default function HostDashboard() {
-    const [user, setUser] = useState({ firstName: "", lastName: "", email: "", error: {} })
-    useEffect(() => {
-        const token = localStorage.usertoken
-        const decoded = jwt_decode(token)
-        setUser({
-            firstName: decoded.firstName,
-            lastName: decoded.lastName,
-            email: decoded.email
-        })
-    }, [])
+    const [isPlace, setIsPlace] = useState(true)
+    const onClickPlace = () => setIsPlace(true)
+    const onClickExp = () => setIsPlace(false)
 
     return (
         <Fragment>
             <div className="dashboard">
-                <nav className="navbar navbar-light bg-light">
-                    <span className="navbar-brand">
-                        Hoststop
-                    </span>
-                    <span className="navbar-brand pull-right" title="Edit your profile">Hey {user.firstName}</span>
+                <nav>
+                    <Navbar className="bg-light">
+                        <Navbar.Brand>Hoststop</Navbar.Brand>
+                        <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end drop-down">
+                            <Nav>
+                                <NavDropdown title="Account" id="basic-nav-dropdown">
+                                    <NavDropdown.Item href="#action/3.1">Edit Profile</NavDropdown.Item>
+                                    <NavDropdown.Item href="#action/3.3">
+                                        View hosted
+                                    </NavDropdown.Item>
+                                </NavDropdown>
+                                <Nav.Link>Logout</Nav.Link>
+                            </Nav>
+                        </Navbar.Collapse>
+                    </Navbar>
                 </nav>
-            </div>
-            <div className="ball-container">
-                <div className="place">
-                    <p>Host a place</p>
-                    <img src="https://a0.muscache.com/im/pictures/8b7519ec-2c82-4c09-8233-fd4d2715bbf9.jpg?aki_policy=large"
-                    />
+
+                <div className="container ball-container mt-5">
+                    <div className="row">
+                        <div className="col-md-6 d-flex justify-content-end">
+                            <div className="card mb-3" style={{ maxWidth: "280px", }} onClick={onClickPlace}>
+                                <div className="row no-gutters">
+                                    <div className="col-md-4">
+                                        <img src="https://a0.muscache.com/im/pictures/8b7519ec-2c82-4c09-8233-fd4d2715bbf9.jpg?aki_policy=x_large" className="card-img" alt="..." />
+                                    </div>
+                                    <div className="col-md-8">
+                                        <div className="card-body">
+                                            <p className="card-text">Host a place</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-md-6">
+                            <div className="card mb-3" style={{ maxWidth: "280px", }} onClick={onClickExp}>
+                                <div className="row no-gutters">
+                                    <div className="col-md-4">
+                                        <img src="https://a0.muscache.com/im/pictures/a77ee672-e790-4362-8cc5-52bec1371ece.jpg?aki_policy=x_large" className="card-img" alt="..." />
+                                    </div>
+                                    <div className="col-md-8">
+                                        <div className="card-body">
+                                            <p className="card-text">Host an experience</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div className="exp">
-                    <p>Host an experience</p>
-                    <img src="https://a0.muscache.com/im/pictures/38f2bfd6-1f4d-46d7-babf-61657deef302.jpg?aki_policy=large" />
+                <div className="container">
+                    {isPlace ? <HostPlace /> : <HostExp />}
                 </div>
             </div>
+
         </Fragment>
     )
 }

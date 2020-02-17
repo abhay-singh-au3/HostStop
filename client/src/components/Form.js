@@ -4,9 +4,11 @@ import validate from "./validateSignup";
 import { hostSignup } from "./UserLoginSignupFunctions";
 import { userSignup } from "./UserLoginSignupFunctions";
 import { useHistory } from "react-router-dom";
+import { useAlert } from "react-alert"
 
 const Form = props => {
     const history = useHistory();
+    const alert = useAlert();
     const { handleChange, handleSubmit, user, errors } = useForm(
         success,
         validate
@@ -21,17 +23,21 @@ const Form = props => {
         };
         if (props.type === "Become a Host") {
             hostSignup(newUser).then(res => {
-                if (res) {
-                    console.log("Host Registered", res);
+                if (res.data.status) {
+                    alert.success("success! login to continue")
                     history.push("/")
+                } else {
+                    alert.show("email already registered")
                 }
             });
         } else {
             userSignup(newUser).then(res => {
-                if (res) {
-                    console.log("User Registered", res);
-                    window.location.reload();
+                if (res.data.status) {
+                    alert.success("success! login to continue")
+                    history.push("/");
                     // After signup do something here
+                } else {
+                    alert.show("email already registered")
                 }
             });
         }

@@ -47,7 +47,7 @@
 #toggle {
     display: none;
 }
-@media only screen and (max-width: 500px) {
+@media only screen and (max-width: 740px) {
     .label {
         display: block;
         cursor: pointer;
@@ -65,4 +65,8 @@
     #toggle:checked + .menu {
         display: block;
     }
+}
+input:focus {
+    border-color: #495057 !important;
+    box-shadow: none !important;
 }

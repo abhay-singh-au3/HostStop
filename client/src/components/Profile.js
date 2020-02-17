@@ -1,18 +1,6 @@
-import React, { Fragment, useState, useEffect } from 'react';
-import jwt_decode from 'jwt-decode';
+import React, { Fragment } from 'react';
 
 const Profile = () => {
-    const [user, setUser] = useState({ firstName: "", lastName: "", email: "", error: {} })
-
-    useEffect(() => {
-        const token = localStorage.usertoken
-        const decoded = jwt_decode(token)
-        setUser({
-            firstName: decoded.firstName,
-            lastName: decoded.lastName,
-            email: decoded.email
-        })
-    }, [])
 
     return (
         <Fragment>
@@ -25,15 +13,12 @@ const Profile = () => {
                         <tbody>
                             <tr>
                                 <td>Fist Name</td>
-                                <td>{user.firstName}</td>
                             </tr>
                             <tr>
                                 <td>Last Name</td>
-                                <td>{user.lastName}</td>
                             </tr>
                             <tr>
                                 <td>Email</td>
-                                <td>{user.email}</td>
                             </tr>
                         </tbody>
                     </table>

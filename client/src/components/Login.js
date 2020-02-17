@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import { userLogin, hostLogin } from "./UserLoginSignupFunctions";
+import {useAlert} from "react-alert";
 
 const Login = props => {
+  const alert = useAlert();
   const [user, setUser] = useState({ email: "", password: "" });
   const [modal, setmodal] = useState(false);
   const history = useHistory();
@@ -22,24 +24,18 @@ const Login = props => {
     const newUser = { email, password };
     if (props.title === "User Login") {
       userLogin(newUser).then(res => {
-        if (res) {
-          // After success login do something here
+        if (!res.data.error) {
           history.push("/UserDashboard");
-          console.log("User Loggedin with token: ", res);
         } else {
-          // After fail login do something here
-          console.log("Invalid Credintials");
+          alert.error(res.data.error)
         }
       });
     } else {
       hostLogin(newUser).then(res => {
-        if (res) {
-          // after success login do something here
+        if (!res.data.error) {
           history.push("/hostDashboard");
-          console.log("Host Logged with token", res);
         } else {
-          // After fail login do something here
-          console.log("Invalid Credintials");
+          alert.error(res.data.error)
         }
       });
     }

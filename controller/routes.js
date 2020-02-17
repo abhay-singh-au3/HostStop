@@ -72,37 +72,37 @@ routes.hostLogin = (req, res) => {
             email: req.body.email
         }
     }).then(user => {
-        if(user) {
-            if(bcrypt.compareSync(req.body.password, user.password)) {
+        if (user) {
+            if (bcrypt.compareSync(req.body.password, user.password)) {
                 let token = jwt.sign(user.dataValues, process.env.SECRET_KEY, {
                     expiresIn: 1440
                 })
-                res.send(token)
+                res.cookie('token', token, { httpOnly: true }).sendStatus(200);
             } else {
-                res.status(400).json({error: "Password is wrong"})
+                res.status(200).json({ error: "Password is wrong" })
             }
         } else {
-            res.status(400).json({error: "User does not exists"})
+            res.status(200).json({ error: "User does not exists" })
         }
     })
 }
-routes.userLogin = (req, res) => { 
+routes.userLogin = (req, res) => {
     UserModel.findOne({
         where: {
             email: req.body.email
         }
     }).then(user => {
-        if(user) {
-            if(bcrypt.compareSync(req.body.password, user.password)) {
+        if (user) {
+            if (bcrypt.compareSync(req.body.password, user.password)) {
                 let token = jwt.sign(user.dataValues, process.env.SECRET_KEY, {
                     expiresIn: 1440
                 })
-                res.send(token)
+                res.cookie('token', token, { httpOnly: true }).sendStatus(200);
             } else {
-                res.status(400).json({error: "Password is wrong"})
+                res.status(200).json({ error: "Password is wrong" })
             }
         } else {
-            res.status(400).json({error: "User does not exists"})
+            res.status(200).json({ error: "User does not exists" })
         }
     })
 }
