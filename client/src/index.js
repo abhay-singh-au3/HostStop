@@ -7,6 +7,8 @@ import Profile from "./components/Profile";
 import Sample from "./components/Sample";
 import UserDashboard from "./components/UserDashboard";
 import HostDashboard from "./components/HostDashboard";
+import SearchExperience from "./components/SearchExperience";
+import SearchPlaces from "./components/SearchPlaces";
 const App = () => {
   return (
     <Router>
@@ -16,6 +18,8 @@ const App = () => {
         <Route path="/sample" component={Sample} />
         <Route path="/UserDashboard" component={UserDashboard} />
         <Route path="/hostDashboard" component={HostDashboard} />
+        <Route path="/SearchExperience" component={SearchExperience} />
+        <Route path="/SearchPlaces" component={SearchPlaces} />
       </div>
     </Router>
   );
