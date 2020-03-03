@@ -10,6 +10,7 @@ import UserDashboard from "./components/UserDashboard";
 import HostDashboard from "./components/HostDashboard";
 import withAuth from './components/withAuth';
 import Viewhosted from './components/Viewhosted';
+import EditProfile from "./components/EditProfile";
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
         <Route path="/UserDashboard" component={withAuth(UserDashboard)} />
         <Route path="/hostDashboard" component={withAuth(HostDashboard)} />
         <Route path="/viewHosted/:type" component={withAuth(Viewhosted)} />
+        <Route path="/editProfile" component={withAuth(EditProfile)} />
       </div>
     </Router>
   );

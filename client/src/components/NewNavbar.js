@@ -1,5 +1,6 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { NavDropdown, Navbar, Nav } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
 import SearchExperience from "./SearchExperience";
 import SearchPlaces from "./SearchPlaces";
 import "../styles/hostdashboard.css";
@@ -8,7 +9,7 @@ export default function NewNavBar() {
   const [isPlace, setIsPlace] = useState(true);
   const onClickPlace = () => setIsPlace(true);
   const onClickExp = () => setIsPlace(false);
-
+  const history = useHistory();
   const onLogout = () => {
     fetch("logout", {
       method: "get",
@@ -23,6 +24,9 @@ export default function NewNavBar() {
         console.log(err);
       });
   };
+  const handleEditProfile = () => {
+    history.push("/editProfile", { type: "user" });
+  };
   return (
     <Fragment>
       <div className="dashboard">
@@ -35,7 +39,7 @@ export default function NewNavBar() {
             >
               <Nav>
                 <NavDropdown title="Account" id="basic-nav-dropdown">
-                  <NavDropdown.Item href="#action/3.1">
+                  <NavDropdown.Item href="" onClick={handleEditProfile}>
                     Edit Profile
                   </NavDropdown.Item>
                   <NavDropdown.Item href="#action/3.3">

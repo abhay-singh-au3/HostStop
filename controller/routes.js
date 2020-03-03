@@ -219,5 +219,46 @@ routes.uploadExp = (req, res) => {
 
     res.status(200).json({ message: "Registered" })
 };
+routes.editProfile = (req, res) => {
+  if (req.body.type === "user") {
+    bcrypt.hash(req.body.user.password, 10, (err, hash) => {
+      UserModel.update(
+        {
+          password: hash
+        },
+        { where: { email: req.email } }
+      );
+    });
+    UserModel.update(
+      {
+        firstName: req.body.user.firstName,
+        lastName: req.body.user.lastName
+      },
+      { where: { email: req.email } }
+    ).then(result => {
+      console.log(result);
+      res.send(result);
+    });
+  } else {
+    bcrypt.hash(req.body.user.password, 10, (err, hash) => {
+      HostModel.update(
+        {
+          password: hash
+        },
+        { where: { email: req.email } }
+      );
+    });
+    HostModel.update(
+      {
+        firstName: req.body.user.firstName,
+        lastName: req.body.user.lastName
+      },
+      { where: { email: req.email } }
+    ).then(result => {
+      console.log(result);
+      res.send(result);
+    });
+  }
+};
 
 module.exports = routes;
