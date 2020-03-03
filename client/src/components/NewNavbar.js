@@ -1,5 +1,4 @@
 import React, { Fragment, useState, useEffect } from "react";
-import jwt_decode from "jwt-decode";
 import { NavDropdown, Navbar, Nav } from "react-bootstrap";
 import SearchExperience from "./SearchExperience";
 import SearchPlaces from "./SearchPlaces";
@@ -7,23 +6,9 @@ import "../styles/hostdashboard.css";
 import axios from "axios";
 export default function NewNavBar() {
   const [isPlace, setIsPlace] = useState(true);
-  const [user, setUser] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    error: {}
-  });
   const onClickPlace = () => setIsPlace(true);
   const onClickExp = () => setIsPlace(false);
-  useEffect(() => {
-    const token = localStorage.usertoken;
-    const decoded = jwt_decode(token);
-    setUser({
-      firstName: decoded.firstName,
-      lastName: decoded.lastName,
-      email: decoded.email
-    });
-  }, []);
+
   const onLogout = () => {
     fetch("logout", {
       method: "get",
@@ -49,10 +34,7 @@ export default function NewNavBar() {
               className="justify-content-end drop-down"
             >
               <Nav>
-                <NavDropdown
-                  title={user.firstName + " " + user.lastName}
-                  id="basic-nav-dropdown"
-                >
+                <NavDropdown title="Account" id="basic-nav-dropdown">
                   <NavDropdown.Item href="#action/3.1">
                     Edit Profile
                   </NavDropdown.Item>
