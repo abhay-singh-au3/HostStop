@@ -1,10 +1,10 @@
 import React, { Fragment, useState, useEffect } from "react";
-
 import jwt_decode from "jwt-decode";
 import { NavDropdown, Navbar, Nav } from "react-bootstrap";
 import SearchExperience from "./SearchExperience";
 import SearchPlaces from "./SearchPlaces";
 import "../styles/hostdashboard.css";
+import axios from "axios";
 export default function NewNavBar() {
   const [isPlace, setIsPlace] = useState(true);
   const [user, setUser] = useState({
@@ -24,6 +24,20 @@ export default function NewNavBar() {
       email: decoded.email
     });
   }, []);
+  const onLogout = () => {
+    fetch("logout", {
+      method: "get",
+      credentials: "include"
+    })
+      .then(function(response) {
+        if (response.redirected) {
+          return window.location.replace(response.url);
+        }
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+  };
   return (
     <Fragment>
       <div className="dashboard">
@@ -43,10 +57,10 @@ export default function NewNavBar() {
                     Edit Profile
                   </NavDropdown.Item>
                   <NavDropdown.Item href="#action/3.3">
-                    View hosted
+                    View Previous orders
                   </NavDropdown.Item>
                 </NavDropdown>
-                <Nav.Link>Logout</Nav.Link>
+                <Nav.Link onClick={onLogout}>Logout</Nav.Link>
               </Nav>
             </Navbar.Collapse>
           </Navbar>
