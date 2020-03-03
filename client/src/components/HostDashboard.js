@@ -3,11 +3,26 @@ import "../styles/hostdashboard.css";
 import { NavDropdown, Navbar, Nav } from 'react-bootstrap';
 import HostExp from './HostForms/HostExp';
 import HostPlace from './HostForms/HostPlace';
+import { Link } from 'react-router-dom';
 
 export default function HostDashboard() {
     const [isPlace, setIsPlace] = useState(true)
     const onClickPlace = () => setIsPlace(true)
     const onClickExp = () => setIsPlace(false)
+    const onLogout = () => {
+        fetch("logout", {
+            method: "get",
+            credentials: "include"
+        })
+            .then(function (response) {
+                if (response.redirected) {
+                    return window.location.replace(response.url);
+                }
+            })
+            .catch(function (err) {
+                console.log(err);
+            });
+    };
 
     return (
         <Fragment>
@@ -19,11 +34,14 @@ export default function HostDashboard() {
                             <Nav>
                                 <NavDropdown title="Account" id="basic-nav-dropdown">
                                     <NavDropdown.Item href="#action/3.1">Edit Profile</NavDropdown.Item>
-                                    <NavDropdown.Item href="#action/3.3">
-                                        View hosted
+                                    <NavDropdown.Item>
+                                        <Link to="/viewHosted/place">View hosted place</Link>
+                                    </NavDropdown.Item>
+                                    <NavDropdown.Item>
+                                        <Link to="/viewHosted/exp">View hosted exp</Link>
                                     </NavDropdown.Item>
                                 </NavDropdown>
-                                <Nav.Link>Logout</Nav.Link>
+                                <Nav.Link onClick={onLogout}>Logout</Nav.Link>
                             </Nav>
                         </Navbar.Collapse>
                     </Navbar>

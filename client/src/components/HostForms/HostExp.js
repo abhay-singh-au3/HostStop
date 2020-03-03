@@ -19,10 +19,6 @@ export default function HostExp() {
         loaded: 0
     })
     const handleChange = e => setExp({ ...exp, [e.target.name]: e.target.value })
-    const handleSubmit = e => {
-        e.preventDefault()
-        console.log(exp)
-    }
     const maxSelectFile = (event) => {
         let files = event.target.files
         if (files.length > 5) {
@@ -68,11 +64,38 @@ export default function HostExp() {
             setExp({ ...exp, images: e.target.files, loaded: 0 })
         }
     }
+    const handleSubmit = e => {
+        e.preventDefault()
+        const formData = new FormData()
+        for (let x = 0; x < exp.images.length; x++) {
+            formData.append('file', exp.images[x])
+        }
+        for(let key in exp) {
+            if(key === "images" || key === "loaded") {
+                break;
+            }
+            formData.append(key, exp[key])
+        }
+        
+        axios.post('/uploadExp', formData, {
+            onUploadProgress: ProgressEvent => {
+                setExp({ ...exp, loaded: (ProgressEvent.loaded / ProgressEvent.total * 100) })
+            },
+        })
+            .then(res => {
+                toast.success('upload success')
+            })
+            .catch(err => {
+                toast.error('upload fail')
+            })
+    }
 
     return (
         <div className="contianer mt-5">
+            <h1 className="h4 text-center">Host Experience</h1>
             <div className="row">
                 <div className="col-sm-12 col-md-6 offset-md-3">
+                    <hr className="mb-5" />
                     <form onSubmit={handleSubmit} className="host-form">
                         <div className="form-group">
                             <label htmlFor="header">Title of your experience</label>
@@ -114,13 +137,13 @@ export default function HostExp() {
                             <label>Location</label>
                             <div className="form-row">
                                 <div className="col-7">
-                                    <input type="text" className="form-control" placeholder="City" name="city" value={exp.city} onChange={handleChange} required />
+                                    <input type="text" className="form-control" expholder="City" name="city" value={exp.city} onChange={handleChange} required />
                                 </div>
                                 <div className="col">
-                                    <input type="text" className="form-control" placeholder="State" name="state" value={exp.state} onChange={handleChange} required />
+                                    <input type="text" className="form-control" expholder="State" name="state" value={exp.state} onChange={handleChange} required />
                                 </div>
                                 <div className="col">
-                                    <input type="number" className="form-control" placeholder="Zip" name="zip" value={exp.zip} onChange={handleChange} required />
+                                    <input type="number" className="form-control" expholder="Zip" name="zip" value={exp.zip} onChange={handleChange} required />
                                 </div>
                             </div>
                         </div>

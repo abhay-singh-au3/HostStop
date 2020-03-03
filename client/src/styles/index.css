@@ -70,3 +70,12 @@ input:focus {
     border-color: #495057 !important;
     box-shadow: none !important;
 }
+
+a {
+  text-decoration: none;
+  color: black;
+}
+a:hover {
+  text-decoration: none;
+  color: black;
+}

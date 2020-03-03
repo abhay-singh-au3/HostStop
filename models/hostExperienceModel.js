@@ -1,9 +1,15 @@
 const Sequelize = require("sequelize");
 const db = require("./config");
 
-module.exports = db.Sequelize.define("hostPlaceModel", {
+module.exports = db.sequelize.define("hostexpmodel", {
   id: {
-    type: Sequelize.INTEGER
+    type: Sequelize.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
+  },
+  hostemail: {
+    type: Sequelize.STRING,
+    allowNull: false
   },
   header: {
     type: Sequelize.STRING,
@@ -26,19 +32,22 @@ module.exports = db.Sequelize.define("hostPlaceModel", {
     allowNull: false
   },
   zip: {
-    type: Sequelize.INTEGER,
+    type: Sequelize.STRING,
     allowNull: false
   },
   date: {
-    type: Sequelize.DATEONLY,
+    type: Sequelize.STRING,
     allowNull: false
   },
   price: {
-    type: Sequelize.DOUBLE,
+    type: Sequelize.STRING,
     allowNull: false
   },
   images: {
     type: Sequelize.ARRAY(Sequelize.STRING),
     allowNull: true
   }
+}, {
+  timestamps: false,
+  freezeTableName: true
 });

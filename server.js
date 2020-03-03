@@ -18,9 +18,10 @@ app.post("/userSignup", routes.userSignup);
 app.post("/hostLogin", routes.hostLogin);
 app.post("/userLogin", routes.userLogin);
 app.get("/logout", routes.logout);
-app.post("/uploadPlace", routes.uploadPlace);
+app.post("/uploadPlace", withAuth, routes.uploadPlace);
 app.get("/text", withAuth, (req, res) => {
   res.sendStatus(200);
 });
+app.post("/uploadExp", withAuth, routes.uploadExp);
 
 app.listen(PORT, () => console.log("Server running at Port:", PORT));

@@ -93,8 +93,10 @@ export default function HostPlace() {
     }
     return (
         <div className="contianer mt-5">
+            <h1 className="h4 text-center">Host Place</h1>
             <div className="row">
                 <div className="col-sm-12 col-md-6 offset-md-3">
+                    <hr className="mb-5" />
                     <form onSubmit={handleSubmit} className="host-form">
                         <div className="form-group">
                             <label htmlFor="header">Title of your place</label>
