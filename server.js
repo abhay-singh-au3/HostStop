@@ -22,5 +22,6 @@ app.post("/uploadPlace", routes.uploadPlace);
 app.get("/text", withAuth, (req, res) => {
   res.sendStatus(200);
 });
+app.put("/editProfile", withAuth, routes.editProfile);
 
 app.listen(PORT, () => console.log("Server running at Port:", PORT));

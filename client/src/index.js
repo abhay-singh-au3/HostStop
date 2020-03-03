@@ -8,7 +8,8 @@ import Profile from "./components/Profile";
 import Sample from "./components/Sample";
 import UserDashboard from "./components/UserDashboard";
 import HostDashboard from "./components/HostDashboard";
-import withAuth from './components/withAuth';
+import withAuth from "./components/withAuth";
+import EditProfile from "./components/EditProfile";
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
         <Route path="/sample" component={withAuth(Sample)} />
         <Route path="/UserDashboard" component={withAuth(UserDashboard)} />
         <Route path="/hostDashboard" component={withAuth(HostDashboard)} />
+        <Route path="/editProfile" component={withAuth(EditProfile)} />
       </div>
     </Router>
   );
