@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import './style.css';
+import axios from 'axios';
+import { Progress } from 'reactstrap';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 
 export default function HostPlace() {
     const [place, setPlace] = useState({
@@ -10,12 +14,82 @@ export default function HostPlace() {
         zip: "",
         persons: "",
         price: "",
-        images: []
+        images: [],
+        loaded: 0
     })
-    const handleChange = e => setPlace({ ...place, [e.target.name]: e.target.value })
+
+    const checkMimeType = e => {
+        let files = e.target.files
+        let err = []
+        const types = ['image/png', 'image/jpeg', 'image/gif']
+        for (var x = 0; x < files.length; x++) {
+            if (types.every(type => files[x].type !== type)) {
+                err[x] = files[x].type + ' is not a supported format\n';
+            }
+        };
+        for (var z = 0; z < err.length; z++) {
+            toast.error(err[z])
+            e.target.value = null
+        }
+        return true;
+    }
+    const maxSelectFile = (event) => {
+        let files = event.target.files
+        if (files.length > 5) {
+            const msg = 'Only 5 images can be uploaded at a time'
+            event.target.value = null
+            toast.warn(msg)
+            return false;
+        }
+        return true;
+    }
+    const checkFileSize = (event) => {
+        let files = event.target.files
+        let size = 2000000
+        let err = [];
+        for (var x = 0; x < files.length; x++) {
+            if (files[x].size > size) {
+                err[x] = files[x].type + 'is too large, please pick a smaller file\n';
+            }
+        };
+        for (var z = 0; z < err.length; z++) {
+            toast.error(err[z])
+            event.target.value = null
+        }
+        return true;
+    }
+    const imageHandler = e => {
+        if (maxSelectFile(e) && checkMimeType(e) && checkFileSize(e)) {
+            setPlace({ ...place, images: e.target.files, loaded: 0 })
+        }
+    }
+    const handleChange = e => {
+        setPlace({ ...place, [e.target.name]: e.target.value })
+    }
     const handleSubmit = e => {
         e.preventDefault()
-        console.log(place)
+        const formData = new FormData()
+        for (let x = 0; x < place.images.length; x++) {
+            formData.append('file', place.images[x])
+        }
+        for(let key in place) {
+            if(key === "images" || key === "loaded") {
+                break;
+            }
+            formData.append(key, place[key])
+        }
+        
+        axios.post('/uploadPlace', formData, {
+            onUploadProgress: ProgressEvent => {
+                setPlace({ ...place, loaded: (ProgressEvent.loaded / ProgressEvent.total * 100) })
+            },
+        })
+            .then(res => {
+                toast.success('upload success')
+            })
+            .catch(err => {
+                toast.error('upload fail')
+            })
     }
     return (
         <div className="contianer mt-5">
@@ -34,7 +108,7 @@ export default function HostPlace() {
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="desc">Describe of your Place</label>
+                            <label htmlFor="desc">Describe your Place</label>
                             <textarea
                                 type="textarea"
                                 name="desc"
@@ -73,12 +147,24 @@ export default function HostPlace() {
                         <div className="form-group">
                             <label htmlFor="persons">Number of persons can accomadate</label>
                             <input
-                            type="number"
-                            name="persons"
-                            className="form-control"
-                            value={place.persons}
-                            onChange={handleChange}
-                            required
+                                type="number"
+                                name="persons"
+                                className="form-control"
+                                value={place.persons}
+                                onChange={handleChange}
+                                required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <ToastContainer />
+                            <Progress max="100" color="success" value={place.loaded}>{Math.round(place.loaded, 2)}</Progress>
+                            <label htmlFor="photos">Choose upto 5 pictures</label>
+                            <input
+                                type="file"
+                                multiple
+                                className="form-control"
+                                name="photos"
+                                onChange={imageHandler}
                             />
                         </div>
                         <button className="btn btn-danger" type="submit">Submit</button>

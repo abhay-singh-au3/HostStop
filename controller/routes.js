@@ -6,6 +6,13 @@ const UserModel = require('../models/userModel')
 
 process.env.SECRET_KEY = 'secret'
 
+const cloudidary = require('cloudinary').v2
+cloudidary.config({
+    cloud_name: 'dkj9dhslg',
+    api_key: '823333546584975',
+    api_secret: 'oFCGWaNXG01YT1NxNRbaU6A9sPk'
+})
+
 routes.hostSignup = (req, res) => {
     const userData = {
         firstName: req.body.firstName,
@@ -105,6 +112,22 @@ routes.userLogin = (req, res) => {
             res.status(200).json({ error: "User does not exists" })
         }
     })
+}
+
+routes.uploadPlace = (req, res) => {
+    
+    const imageArr = req.files.file;
+    const urls = []
+    for (let img of imageArr) {
+        cloudidary.uploader.upload(img.tempFilePath, (err, result) => {
+            if(err) throw err
+            urls.push(result.url)
+        })
+    }
+    res.send(urls)
+    // console.log('body', req.files.file)
+    // console.log('body-photo', req.body.header)
+    // res.json({status: "File uploaded!"})
 }
 
 
