@@ -220,45 +220,73 @@ routes.uploadExp = (req, res) => {
     res.status(200).json({ message: "Registered" })
 };
 routes.editProfile = (req, res) => {
-  if (req.body.type === "user") {
-    bcrypt.hash(req.body.user.password, 10, (err, hash) => {
-      UserModel.update(
-        {
-          password: hash
-        },
-        { where: { email: req.email } }
-      );
-    });
-    UserModel.update(
-      {
-        firstName: req.body.user.firstName,
-        lastName: req.body.user.lastName
-      },
-      { where: { email: req.email } }
-    ).then(result => {
-      console.log(result);
-      res.send(result);
-    });
-  } else {
-    bcrypt.hash(req.body.user.password, 10, (err, hash) => {
-      HostModel.update(
-        {
-          password: hash
-        },
-        { where: { email: req.email } }
-      );
-    });
-    HostModel.update(
-      {
-        firstName: req.body.user.firstName,
-        lastName: req.body.user.lastName
-      },
-      { where: { email: req.email } }
-    ).then(result => {
-      console.log(result);
-      res.send(result);
-    });
-  }
+    if (req.body.type === "user") {
+        bcrypt.hash(req.body.user.password, 10, (err, hash) => {
+            UserModel.update(
+                {
+                    password: hash
+                },
+                { where: { email: req.email } }
+            );
+        });
+        UserModel.update(
+            {
+                firstName: req.body.user.firstName,
+                lastName: req.body.user.lastName
+            },
+            { where: { email: req.email } }
+        ).then(result => {
+            console.log(result);
+            res.send(result);
+        });
+    } else {
+        bcrypt.hash(req.body.user.password, 10, (err, hash) => {
+            HostModel.update(
+                {
+                    password: hash
+                },
+                { where: { email: req.email } }
+            );
+        });
+        HostModel.update(
+            {
+                firstName: req.body.user.firstName,
+                lastName: req.body.user.lastName
+            },
+            { where: { email: req.email } }
+        ).then(result => {
+            console.log(result);
+            res.send(result);
+        });
+    }
 };
+
+routes.viewHostedPlace = (req, res) => {
+    HostPlaceModel.findAll({
+        where: { hostemail: req.email }
+    }).then(docs => {
+        if (docs.length > 0) {
+            res.status(200).json(docs)
+        } else {
+            res.status(200).json({ message: "No hosted places yet." })
+        }
+    }).catch(err => {
+        res.status(500).json({ error: err })
+    })
+}
+
+routes.viewHostedExp = (req, res) => {
+    HostExpModel.findAll({
+        where: { hostemail: req.email }
+    }).then(docs => {
+        if (docs.length > 0) {
+            res.status(200).json(docs)
+        } else {
+            res.status(200).json({ message: "No hosted experiences yet." })
+        }
+    }).catch(err => {
+        res.status(500).json({ error: err })
+    })
+}
 
 module.exports = routes;

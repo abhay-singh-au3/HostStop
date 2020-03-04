@@ -36,7 +36,7 @@ module.exports = db.sequelize.define("hostexpmodel", {
     allowNull: false
   },
   date: {
-    type: Sequelize.STRING,
+    type: Sequelize.DATEONLY,
     allowNull: false
   },
   price: {

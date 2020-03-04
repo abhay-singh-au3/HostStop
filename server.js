@@ -24,5 +24,7 @@ app.get("/text", withAuth, (req, res) => {
 });
 app.post("/uploadExp", withAuth, routes.uploadExp);
 app.put("/editProfile", withAuth, routes.editProfile);
+app.get("/viewHosted/place", withAuth, routes.viewHostedPlace);
+app.get("/viewHosted/exp", withAuth, routes.viewHostedExp);
 
 app.listen(PORT, () => console.log("Server running at Port:", PORT));

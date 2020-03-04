@@ -179,6 +179,7 @@ export default function HostExp() {
                                 className="form-control"
                                 name="photos"
                                 onChange={imageHandler}
+                                required
                             />
                         </div>
                         <button className="btn btn-danger" type="submit">Submit</button>

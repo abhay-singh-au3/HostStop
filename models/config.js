@@ -13,7 +13,7 @@ sequelize
     console.error("Unable to connect to the database:", err);
   });
 
-sequelize.sync({force:true}).then(res => console.log("table created" + res));
+sequelize.sync({ force: true }).then(res => console.log("table created" + res));
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
