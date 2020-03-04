@@ -24,5 +24,5 @@ app.get("/text", withAuth, (req, res) => {
 });
 app.post("/uploadExp", withAuth, routes.uploadExp);
 app.put("/editProfile", withAuth, routes.editProfile);
-
+app.get("/searchPlaces/:searchDetail", routes.searchPlaces);
 app.listen(PORT, () => console.log("Server running at Port:", PORT));
