@@ -8,9 +8,11 @@ import Profile from "./components/Profile";
 import Sample from "./components/Sample";
 import UserDashboard from "./components/UserDashboard";
 import HostDashboard from "./components/HostDashboard";
-import withAuth from './components/withAuth';
-import Viewhosted from './components/Viewhosted';
+import withAuth from "./components/withAuth";
+import Viewhosted from "./components/Viewhosted";
 import EditProfile from "./components/EditProfile";
+import SearchResults from "./components/SearchResults";
+import ClickedResult from "./components/ClickedResult";
 
 const App = () => {
   return (
@@ -23,6 +25,11 @@ const App = () => {
         <Route path="/hostDashboard" component={withAuth(HostDashboard)} />
         <Route path="/viewHosted/:type" component={withAuth(Viewhosted)} />
         <Route path="/editProfile" component={withAuth(EditProfile)} />
+        <Route
+          path="/searchResults/place/:cityName"
+          component={withAuth(SearchResults)}
+        />
+        <Route path="/clickedResult/:id" component={withAuth(ClickedResult)} />
       </div>
     </Router>
   );
