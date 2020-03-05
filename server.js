@@ -28,4 +28,6 @@ app.get("/viewHosted/place", withAuth, routes.viewHostedPlace);
 app.get("/viewHosted/exp", withAuth, routes.viewHostedExp);
 
 app.get("/searchPlaces/:searchDetail", routes.searchPlaces);
+app.get("/book/places", withAuth, routes.bookPlace);
+app.get("/book/exp", withAuth, routes.bookExperience);
 app.listen(PORT, () => console.log("Server running at Port:", PORT));
