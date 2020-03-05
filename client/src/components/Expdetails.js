@@ -5,10 +5,10 @@ import { NavDropdown, Navbar, Nav } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 
 
-const Placedetail = props => {
+const Expdetails = props => {
     const [data, setData] = useState(null)
     useEffect(() => {
-        axios.get(`/place/${props.match.params.id}`).then(res => setData(res.data))
+        axios.get(`/exp/${props.match.params.id}`).then(res => setData(res.data))
     }, [])
     const history = useHistory();
     const onLogout = () => {
@@ -74,12 +74,12 @@ const Placedetail = props => {
                                 </div>
                             </div>
                         </div>
-                        <div className="container mt-5">
+                        <div className="container">
                             <div className="row">
-                                <div className="col details text-center">
-                                    <h2 className="h5">{data.header}</h2>
+                                <div className="col text-center details">
+                                <h2 className="h5">{data.header}</h2>
                                     <p className="lead">{data.description}</p>
-                                    <p>Can have upto {data.persons} persons</p>
+                                    <p>{data.category} <small className="text-muted">category</small></p>
                                     <p className="lead"><strong>${data.price}</strong> / night</p>
                                     <p className="lead">{data.city} - {data.state} - {data.zip}</p>
                                     <button className="btn btn-danger">Book Now</button>
@@ -92,4 +92,4 @@ const Placedetail = props => {
     );
 }
 
-export default Placedetail;
+export default Expdetails;

@@ -12,7 +12,9 @@ import withAuth from "./components/withAuth";
 import Viewhosted from "./components/Viewhosted";
 import EditProfile from "./components/EditProfile";
 import SearchResults from "./components/SearchResults";
-import ClickedResult from "./components/ClickedResult";
+import SearchResultsExp from "./components/SearchResultsExp";
+import Placedetail from "./components/Placedetail";
+import Expdetails from "./components/Expdetails";
 
 const App = () => {
   return (
@@ -29,7 +31,12 @@ const App = () => {
           path="/searchResults/place/:cityName"
           component={withAuth(SearchResults)}
         />
-        <Route path="/clickedResult/:id" component={withAuth(ClickedResult)} />
+        <Route
+          path="/searchResults/exp/:cityName"
+          component={withAuth(SearchResultsExp)}
+        />
+        <Route path="/clickedResult/place/:id" component={withAuth(Placedetail)} />
+        <Route path="/clickedResult/exp/:id" component={withAuth(Expdetails)} />
       </div>
     </Router>
   );

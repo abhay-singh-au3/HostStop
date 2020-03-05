@@ -27,5 +27,10 @@ app.put("/editProfile", withAuth, routes.editProfile);
 app.get("/viewHosted/place", withAuth, routes.viewHostedPlace);
 app.get("/viewHosted/exp", withAuth, routes.viewHostedExp);
 
-app.get("/searchPlaces/:searchDetail", routes.searchPlaces);
+app.get("/searchPlaces/:searchDetail", withAuth, routes.searchPlaces);
+app.get("/searchExp/:searchDetail", withAuth, routes.searchExp);
+app.get("/place/:id", withAuth, routes.place)
+app.get("/exp/:id", withAuth, routes.exp)
+
+
 app.listen(PORT, () => console.log("Server running at Port:", PORT));

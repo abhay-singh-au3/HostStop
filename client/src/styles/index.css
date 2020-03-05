@@ -79,3 +79,8 @@ a:hover {
   text-decoration: none;
   color: black;
 }
+.detail {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
