@@ -5,7 +5,10 @@ const HostModel = require("../models/hostModel");
 const UserModel = require("../models/userModel");
 const HostExpModel = require("../models/hostExperienceModel");
 const HostPlaceModel = require("../models/hostPlaceModel");
+const bookedExperienceModel = require("../models/bookedExperienceModel");
+const bookedPlacesModel = require("../models/bookedPlacesModel");
 const db = require("../models/config");
+const nodemailer = require("nodemailer");
 const Sequelize = db.Sequelize;
 
 process.env.SECRET_KEY = "secret";
@@ -246,45 +249,45 @@ routes.uploadExp = (req, res) => {
     res.status(200).json({ message: "Registered" });
 };
 routes.editProfile = (req, res) => {
-    if (req.body.type === "user") {
-        bcrypt.hash(req.body.user.password, 10, (err, hash) => {
-            UserModel.update(
-                {
-                    password: hash
-                },
-                { where: { email: req.email } }
-            );
-        });
-        UserModel.update(
-            {
-                firstName: req.body.user.firstName,
-                lastName: req.body.user.lastName
-            },
-            { where: { email: req.email } }
-        ).then(result => {
-            console.log(result);
-            res.send(result);
-        });
-    } else {
-        bcrypt.hash(req.body.user.password, 10, (err, hash) => {
-            HostModel.update(
-                {
-                    password: hash
-                },
-                { where: { email: req.email } }
-            );
-        });
-        HostModel.update(
-            {
-                firstName: req.body.user.firstName,
-                lastName: req.body.user.lastName
-            },
-            { where: { email: req.email } }
-        ).then(result => {
-            console.log(result);
-            res.send(result);
-        });
-    }
+  if (req.body.type === "user") {
+    bcrypt.hash(req.body.user.password, 10, (err, hash) => {
+      UserModel.update(
+        {
+          password: hash
+        },
+        { where: { email: req.email } }
+      );
+    });
+    UserModel.update(
+      {
+        firstName: req.body.user.firstName,
+        lastName: req.body.user.lastName
+      },
+      { where: { email: req.email } }
+    ).then(result => {
+      console.log(result);
+      res.send(result);
+    });
+  } else {
+    bcrypt.hash(req.body.user.password, 10, (err, hash) => {
+      HostModel.update(
+        {
+          password: hash
+        },
+        { where: { email: req.email } }
+      );
+    });
+    HostModel.update(
+      {
+        firstName: req.body.user.firstName,
+        lastName: req.body.user.lastName
+      },
+      { where: { email: req.email } }
+    ).then(result => {
+      console.log(result);
+      res.send(result);
+    });
+  }
 };
 routes.searchPlaces = (req, res) => {
     HostPlaceModel.findAll({
@@ -314,32 +317,120 @@ routes.searchExp = (req, res) => {
 };
 
 routes.viewHostedPlace = (req, res) => {
-    HostPlaceModel.findAll({
-        where: { hostemail: req.email }
-    }).then(docs => {
-        if (docs.length > 0) {
-            res.status(200).json(docs)
-        } else {
-            res.status(200).json({ message: "No hosted places yet." })
-        }
-    }).catch(err => {
-        res.status(500).json({ error: err })
+  HostPlaceModel.findAll({
+    where: { hostemail: req.email }
+  })
+    .then(docs => {
+      if (docs.length > 0) {
+        res.status(200).json(docs);
+      } else {
+        res.status(200).json({ message: "No hosted places yet." });
+      }
     })
-}
+    .catch(err => {
+      res.status(500).json({ error: err });
+    });
+};
 
 routes.viewHostedExp = (req, res) => {
-    HostExpModel.findAll({
-        where: { hostemail: req.email }
-    }).then(docs => {
-        if (docs.length > 0) {
-            res.status(200).json(docs)
-        } else {
-            res.status(200).json({ message: "No hosted experiences yet." })
-        }
-    }).catch(err => {
-        res.status(500).json({ error: err })
+  HostExpModel.findAll({
+    where: { hostemail: req.email }
+  })
+    .then(docs => {
+      if (docs.length > 0) {
+        res.status(200).json(docs);
+      } else {
+        res.status(200).json({ message: "No hosted experiences yet." });
+      }
     })
-}
+    .catch(err => {
+      res.status(500).json({ error: err });
+    });
+};
+routes.bookPlace = (req, res) => {
+  const order = {
+    total: req.body.total,
+    checkIn: req.body.checkIn,
+    checkOut: req.body.checkOut,
+    city: req.body.city,
+    zip: req.body.zip,
+    useremail: req.email
+  };
+  bookedPlacesModel
+    .create(order)
+    .then(place => {
+      console.log("added order in bookedPlaces model " + place.useremail);
+      bookingMail(order);
+    })
+    .catch(err => {
+      console.log("error: " + err);
+    });
+  const bookingMail = data => {
+    let transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "hoststop.attainu@gmail.com",
+        pass: "hoststop1711"
+      }
+    });
+    let mailOptions = {
+      from: "hoststop.attainu@gmail.com",
+      to: data.useremail,
+      subject: "Host stop booking",
+      text: `Your booking has been confirmed from ${data.checkIn} to ${data.checkOut} at ${data.city},pincode-${data.zip}.Total amount payable is $ ${data.total}`
+    };
+    transporter.sendMail(mailOptions, (err, data) => {
+      if (err) {
+        console.log("booking not confirmed");
+        console.log("error: ", err);
+      }
+      res.send("booking confirmed please check your Email");
+    });
+  };
+};
+
+routes.bookExperience = (req, res) => {
+  const order = {
+    total: req.body.total,
+    checkIn: req.body.checkIn,
+    checkOut: req.body.checkOut,
+    city: req.body.city,
+    zip: req.body.zip,
+    useremail: req.email
+  };
+  bookedExperienceModel
+    .create(order)
+    .then(experience => {
+      console.log(
+        "added order in bookedExperience model " + experience.useremail
+      );
+      bookingMail(order);
+    })
+    .catch(err => {
+      console.log("error: " + err);
+    });
+  const bookingMail = data => {
+    let transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "hoststop.attainu@gmail.com",
+        pass: "hoststop1711"
+      }
+    });
+    let mailOptions = {
+      from: "hoststop.attainu@gmail.com",
+      to: data.useremail,
+      subject: "Host stop booking",
+      text: `Your experience has been confirmed from at ${data.city},pincode-${data.zip}.Total amount payable is $ ${data.total}`
+    };
+    transporter.sendMail(mailOptions, (err, data) => {
+      if (err) {
+        console.log("booking not confirmed");
+      }
+      res.send("booking confirmed please check your Email");
+    });
+  };
+};
 
 routes.place = (req, res) => {
     HostPlaceModel.findOne({

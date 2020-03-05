@@ -31,6 +31,6 @@ app.get("/searchPlaces/:searchDetail", withAuth, routes.searchPlaces);
 app.get("/searchExp/:searchDetail", withAuth, routes.searchExp);
 app.get("/place/:id", withAuth, routes.place)
 app.get("/exp/:id", withAuth, routes.exp)
-
-
+app.post("/book/places", withAuth, routes.bookPlace);
+app.post("/book/exp", withAuth, routes.bookExperience);
 app.listen(PORT, () => console.log("Server running at Port:", PORT));

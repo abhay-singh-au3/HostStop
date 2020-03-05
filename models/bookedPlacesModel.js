@@ -1,9 +1,10 @@
 const Sequelize = require("sequelize");
 const db = require("./config");
-module.exports = db.Sequelize.define("bookedPlaces", {
+module.exports = db.sequelize.define("bookedPlacesModel", {
   id: {
     type: Sequelize.INTEGER,
-    allowNull: false
+    primaryKey: true,
+    autoIncrement: true
   },
   useremail: {
     type: Sequelize.STRING,
