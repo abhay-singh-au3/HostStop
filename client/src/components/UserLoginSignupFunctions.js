@@ -27,8 +27,12 @@ export const userLogin = user => {
         password: user.password
     })
     .then(res => {
-        localStorage.setItem('usertoken', res.data)
-        return res.data
+        if(res.status === 200) {
+            return res
+        } else {
+            const error = new Error(res.error);
+            throw error
+        }
     })
     .catch(err => {
         console.log(err)
@@ -42,8 +46,12 @@ export const hostLogin = user => {
         password: user.password
     })
     .then(res => {
-        localStorage.setItem('usertoken', res.data)
-        return res.data
+        if(res.status === 200) {
+            return res
+        } else {
+            const error = new Error(res.error);
+            throw error
+        }
     })
     .catch(err => {
         console.log(err)

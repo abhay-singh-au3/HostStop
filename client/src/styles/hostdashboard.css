@@ -1,0 +1,11 @@
+.card:hover {
+    box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.5);
+}
+
+.card {
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.3);
+    transition: box-shadow 500ms;
+    font-weight: 300;
+    cursor: pointer;
+}
+
