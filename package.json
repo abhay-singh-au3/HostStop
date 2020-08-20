@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/abhay-singh-au3/HostStop#readme",
   "dependencies": {
-    "bcrypt": "^3.0.8",
+    "bcrypt": "^5.0.0",
     "cloudinary": "^1.19.0",
     "concurrently": "^5.1.0",
     "cookie-parser": "^1.4.4",
